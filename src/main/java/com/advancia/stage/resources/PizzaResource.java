@@ -27,7 +27,7 @@ public class PizzaResource {
 	}
 
 	// URI:
-	// /contextPath/servletPath/pizzas
+	// http://localhost:8080/pizzeriadadylan/rest/pizzas/
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Pizza> getPizzas_JSON() {
