@@ -2,6 +2,7 @@ package com.advancia.stage.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.ws.rs.Path;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,7 +15,6 @@ import java.util.List;
  */
 @XmlRootElement(name = "pizza")
 @XmlAccessorType(XmlAccessType.FIELD)
-//@XmlTransient // altrimenti errore cycle
 @Entity
 @NamedQuery(name="Pizza.findAll", query="SELECT p FROM Pizza p")
 public class Pizza implements Serializable {

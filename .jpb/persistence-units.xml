@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit name="Pizzeria" persistenceXmlPath="src/main/java/META-INF/persistence.xml">
+        <entities>
+          <entity value="com.advancia.stage.model.Pizza" />
+          <entity value="com.advancia.stage.model.Utente" />
+          <entity value="com.advancia.stage.model.Impasto" />
+          <entity value="com.advancia.stage.model.Ingrediente" />
+        </entities>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>

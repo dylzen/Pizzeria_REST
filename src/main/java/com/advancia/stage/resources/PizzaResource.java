@@ -15,13 +15,26 @@ import com.advancia.stage.dao.PizzaDAO;
 import com.advancia.stage.dto.PizzaDTO;
 import com.advancia.stage.model.Pizza;
 import com.advancia.stage.utility.Converter;
+//import com.wordnik.swagger.annotations.Api;
+//import com.wordnik.swagger.annotations.ApiOperation;
+//import com.wordnik.swagger.annotations.ApiResponse;
+//import com.wordnik.swagger.annotations.ApiResponses;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Path("/pizzas")
+@Api(value = "pizzas")
+@Produces({"application/json", "application/xml"})
 public class PizzaResource {
 
 	@GET
 	@Path("/hello")
 	@Produces({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "Hello Operation", notes = "Dice Hello")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Server error, check log files") })
 	public String sayJsonHello() {
 		return "{\"name\":\"greeting\", \"message\":\"Bonjour tout le monde!\"}";
 	}
@@ -30,6 +43,10 @@ public class PizzaResource {
 	// http://localhost:8080/pizzeriadadylan/rest/pizzas/
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "Mostra tutte le pizze",
+			notes = "Nessuna nota",
+			response = Pizza.class,
+			responseContainer = "List")
 	public List<Pizza> getPizzas_JSON() {
 		List<Pizza> listaPizze = PizzaDAO.findAllPizza();
 		return Converter.cleanPizza(listaPizze);
@@ -40,9 +57,10 @@ public class PizzaResource {
 	@GET
 	@Path("/pizza/{idPizza}")
 	@Produces({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "Trova la pizza in base all'ID",
+		response = Pizza.class)
 	public Pizza getPizzaByPizzaID_JSON(@PathParam("idPizza") int idPizza) {
-		Pizza pizza = PizzaDAO.findPizzaByIdPizza(idPizza);
-		return pizza;
+		return PizzaDAO.findPizzaByIdPizza(idPizza);
 	}
 
 	// URI:
@@ -82,8 +100,7 @@ public class PizzaResource {
 	@Path("/dto")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<PizzaDTO> getPizzas_DTO() {
-		List<PizzaDTO> listaPizze = PizzaDAO.getAllPizzaDTO();
-		return listaPizze;
+		return PizzaDAO.getAllPizzaDTO();
 	}
 
 }
