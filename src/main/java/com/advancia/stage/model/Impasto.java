@@ -5,6 +5,8 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
@@ -16,12 +18,14 @@ import java.util.List;
 @Entity
 @XmlRootElement
 @NamedQuery(name="Impasto.findAll", query="SELECT i FROM Impasto i")
+@ApiModel(description = "Un impasto che potrebbe essere disponibile per le pizze.")
 public class Impasto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_impasto")
+	@ApiModelProperty(value = "Identificatore univoco")
 	private int idImpasto;
 
 	@Column(name="nome_impasto")

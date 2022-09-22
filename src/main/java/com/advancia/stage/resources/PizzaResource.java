@@ -10,23 +10,27 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.advancia.stage.dao.PizzaDAO;
 import com.advancia.stage.dto.PizzaDTO;
 import com.advancia.stage.model.Pizza;
 import com.advancia.stage.utility.Converter;
-//import com.wordnik.swagger.annotations.Api;
-//import com.wordnik.swagger.annotations.ApiOperation;
-//import com.wordnik.swagger.annotations.ApiResponse;
-//import com.wordnik.swagger.annotations.ApiResponses;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiParam;
+
+
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.ApiResponse;
+//import io.swagger.annotations.ApiResponses;
 
 @Path("/pizzas")
-@Api(value = "pizzas")
+@Api(value = "/pizzas", description = "Mostra la lista delle pizze")
 @Produces({"application/json", "application/xml"})
 public class PizzaResource {
 
@@ -34,7 +38,7 @@ public class PizzaResource {
 	@Path("/hello")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@ApiOperation(value = "Hello Operation", notes = "Dice Hello")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Server error, check log files") })
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Server error, check log files") })
 	public String sayJsonHello() {
 		return "{\"name\":\"greeting\", \"message\":\"Bonjour tout le monde!\"}";
 	}
@@ -43,10 +47,10 @@ public class PizzaResource {
 	// http://localhost:8080/pizzeriadadylan/rest/pizzas/
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value = "Mostra tutte le pizze",
-			notes = "Nessuna nota",
-			response = Pizza.class,
-			responseContainer = "List")
+//	@ApiOperation(value = "Mostra tutte le pizze",
+//			notes = "Nessuna nota",
+//			response = Pizza.class,
+//			responseContainer = "List")
 	public List<Pizza> getPizzas_JSON() {
 		List<Pizza> listaPizze = PizzaDAO.findAllPizza();
 		return Converter.cleanPizza(listaPizze);
@@ -57,8 +61,7 @@ public class PizzaResource {
 	@GET
 	@Path("/pizza/{idPizza}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value = "Trova la pizza in base all'ID",
-		response = Pizza.class)
+//	@ApiOperation(value = "Trova la pizza in base all'ID", response = Pizza.class)
 	public Pizza getPizzaByPizzaID_JSON(@PathParam("idPizza") int idPizza) {
 		return PizzaDAO.findPizzaByIdPizza(idPizza);
 	}
@@ -67,6 +70,7 @@ public class PizzaResource {
 	// /contextPath/servletPath/pizzas/utente/{idUtente}
 	@GET
 	@Path("/utente/{idUtente}")
+	@ApiOperation(value = "Mostra l'untente in base all'ID")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Pizza> getPizzaByUserID_JSON(@PathParam("idUtente") String idUtente) {
 		List<Pizza> listaPizze = PizzaDAO.findPizzaByIdUtente(idUtente);
@@ -101,6 +105,20 @@ public class PizzaResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<PizzaDTO> getPizzas_DTO() {
 		return PizzaDAO.getAllPizzaDTO();
+	}
+	
+	// Test Swagger
+	@GET
+	@Path("/{idPizza}")
+	@ApiOperation(value = "Mostra la pizza corrispondente all'ID.", response = Pizza.class, position = 0)
+	@ApiResponses(value = {
+	        @ApiResponse(code = 400, message = "Invalid username supplied"),
+	        @ApiResponse(code = 404, message = "User not found")})
+//	@Produces({ MediaType.APPLICATION_JSON })
+//	@ApiOperation(value = "Trova la pizza in base all'ID", response = Pizza.class)
+	public Pizza getPizzaByPizzaID_JSON_Swagger(@ApiParam(value = "L'ID della pizza da mostrare.", required = true)
+															 @PathParam("idPizza") int idPizza) {
+		return PizzaDAO.findPizzaByIdPizza(idPizza);
 	}
 
 }

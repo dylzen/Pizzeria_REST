@@ -94,8 +94,9 @@
 		</form>
 
 		<br> <br>
+		<!--  SEZIONE LISTA PIZZE -->
 		<h2 style="text-align: center;">Le tue pizze</h2>
-		<table class="table table-striped table-borderless table-sm">
+		<table class="table table-striped table-borderless table-sm" id="listaPizze">
 			<thead>
 				<tr>
 
@@ -121,6 +122,7 @@
 			</c:forEach>
 
 		</table>
+		
 	</div>
 
 </body>
