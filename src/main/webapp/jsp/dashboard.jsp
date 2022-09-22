@@ -10,10 +10,24 @@
 
 <link href="<%=request.getContextPath()%>/css/bootstrap.css"
 	rel="stylesheet" type="text/css">
+<link
+	href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css"
+	rel="stylesheet" />
 <title>Pizzeria</title>
 </head>
 
-<body>
+<body onload="pizzaSorter(this)">
+	<!-- load jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+		crossorigin="anonymous"></script>
+
+	<!-- load jQuery UI -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+		integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="js/sorting.js"></script>
 	<%
 	String idUtente = null;
 	String nomeUtente = null;
@@ -34,6 +48,7 @@
 
 	// l'attributo deve corrispondere al parametro passato nel SetAttribute della servlet
 	%>
+
 	<h1 align="center">
 		Benvenuto,
 		<%=nomeUtente%>!
@@ -94,35 +109,49 @@
 		</form>
 
 		<br> <br>
+		<!--  SEZIONE LISTA PIZZE -->
 		<h2 style="text-align: center;">Le tue pizze</h2>
-		<table class="table table-striped table-borderless table-sm">
+		<table class="table table-striped table-borderless table-sm"
+			id="listaPizzeTable">
 			<thead>
 				<tr>
-
+					<!--When a header is clicked, run the sortTable function, with a parameter,
+						0 for sorting by names, 1 for sorting by country: -->
 					<th scope="col">Pizza</th>
 					<th scope="col">Impasto</th>
 					<th scope="col">Ingredienti</th>
 					<th scope="col" colspan="2" style="text-align: center;">Azioni</th>
 				</tr>
 			</thead>
-			<c:forEach items="${ pizze }" var="pizza">
-				<tr>
-					<th style="vertical-align: middle;" scope="row">${pizza.nomePizza}
-					<td style="vertical-align: middle;">${pizza.getImpasto().getNomeImpasto()}</td>
-					<td style="vertical-align: middle;"><c:forEach items="${ pizza.getIngredientes() }"
-							var="ingrediente">
+			<tbody id="sortable">
+				<c:forEach items="${ pizze }" var="pizza">
+					<tr>
+						<td style="vertical-align: middle;" scope="row">${pizza.nomePizza}
+						<td style="vertical-align: middle;">${pizza.getImpasto().getNomeImpasto()}</td>
+						<td style="vertical-align: middle;"><c:forEach
+								items="${ pizza.getIngredientes() }" var="ingrediente">
 							${ingrediente.getNomeIngrediente()}<br>
-						</c:forEach></td>
-					<td style="vertical-align: middle;"><a class="btn btn-primary btn-sm"
-						href="<%=request.getContextPath()%>/pizzeria?flag=modificaPizza&idPizza=${pizza.idPizza}">modifica</a></td>
-					<td style="vertical-align: middle;"><a class="btn btn-dark btn-sm"
-						href="<%=request.getContextPath()%>/pizzeria?flag=eliminaPizza&idPizza=${pizza.idPizza}">elimina</a></td>
-				</tr>
-			</c:forEach>
-
+							</c:forEach></td>
+						<td style="vertical-align: middle;"><a
+							class="btn btn-primary btn-sm"
+							href="<%=request.getContextPath()%>/pizzeria?flag=modificaPizza&idPizza=${pizza.idPizza}">modifica</a></td>
+						<td style="vertical-align: middle;"><a
+							class="btn btn-dark btn-sm"
+							href="<%=request.getContextPath()%>/pizzeria?flag=eliminaPizza&idPizza=${pizza.idPizza}">elimina</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
+		<script>
+			$(document).ready(function() {
+				$("#sortable").sortable();
+				$("#sortable").disableSelection();
+			});
+		</script>
+		<script>
+			
+		</script>
 	</div>
-
 </body>
 
 </html>
